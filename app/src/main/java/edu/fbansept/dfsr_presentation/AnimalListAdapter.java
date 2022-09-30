@@ -21,47 +21,47 @@ import java.util.ArrayList;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder> {
 
-    private ArrayList<Product> productList;
+    private ArrayList<Animal> animalList;
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
+    public static class AnimalViewHolder extends RecyclerView.ViewHolder {
 
         TextView itemProductTitle;
         ImageView itemProductDescription;
 
-        public ProductViewHolder(@NonNull View itemView) {
+        public AnimalViewHolder(@NonNull View itemView) {
             super(itemView);
             itemProductTitle = itemView.findViewById(R.id.itemProductTitle);
             itemProductDescription = itemView.findViewById(R.id.itemProductDescription);
         }
     }
 
-    public ProductListAdapter(ArrayList<Product> productList) {
-        this.productList = productList;
+    public AnimalListAdapter(ArrayList<Animal> animalList) {
+        this.animalList = productList;
     }
 
     @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AnimalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.item_product,parent,false);
 
-        ProductViewHolder viewHolder = new ProductViewHolder(view);
+        AnimalViewHolder viewHolder = new AnimalViewHolder(view);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.itemProductTitle.setText(productList.get(position).getAnimal_name());
-        holder.itemProductDescription.setImageBitmap(this.getBitmapFromURL(productList.get(position).getAnimal_img()));
+    public void onBindViewHolder(@NonNull AnimalViewHolder holder, int position) {
+        holder.itemAnimalTitle.setText(animalList.get(position).getAnimal_name());
+        holder.itemAnimalDescription.setImageBitmap(this.getBitmapFromURL(animalList.get(position).getAnimal_image_link()));
 
     }
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return animalList.size();
     }
 
     public Bitmap getBitmapFromURL(String src) {

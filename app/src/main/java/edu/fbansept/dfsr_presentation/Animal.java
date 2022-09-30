@@ -3,12 +3,12 @@ package edu.fbansept.dfsr_presentation;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Product {
+public class Animal {
     private String animal_type;
     private String animal_name;
     private String animal_image_link;
 
-    public Product(String animal_type, String animal_name, String animal_img) {
+    public Animal(String animal_type, String animal_name, String animal_image_link) {
         this.animal_type = animal_type;
         this.animal_name = animal_name;
         this.animal_image_link = animal_image_link;
@@ -30,15 +30,15 @@ public class Product {
         this.animal_name = animal_name;
     }
 
-    public String getAnimal_img() {
+    public String getAnimal_image_link() {
         return animal_image_link;
     }
 
-    public void setAnimal_img(String animal_img) {
+    public void setAnimal_image_link(String animal_image_link) {
         this.animal_image_link = animal_image_link;
     }
 
-    public Product(JSONObject json) {
+    public Animal(JSONObject json) {
 
         try {
             this.animal_type = json.getString("animal_type");
