@@ -1,18 +1,20 @@
 package edu.fbansept.dfsr_presentation;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.util.ArrayMap;
-import android.util.Log;
-import android.widget.Button;
-
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,45 +22,41 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Product> productList = new ArrayList<>();
 
+    private final int GALLERY_REQ_CODE = 1000;
+    ImageView imgGallery;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-                "https://zoo-animal-api.herokuapp.com/animals/rand/10",
-                response -> {
-
-                    productList = new ArrayList<>();
-
-                    try {
-                        JSONArray jsonProductList = response.getJSONArray("data");
-
-                        for(int i = 0; i < jsonProductList.length(); i++ ) {
-                            try {
-                                JSONObject json = jsonProductList.getJSONObject(i);
-                                Product produit = new Product(json);
-                                productList.add(produit);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        RecyclerView rvProductList = findViewById(R.id.rvProductList);
-                        rvProductList.setLayoutManager(new LinearLayoutManager(this));
-                        rvProductList.setAdapter(new ProductListAdapter(productList));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> Log.d("volley",error.toString())
-        );
-
-        RequestManager.getInstance(this).addToRequestQueue(jsonArrayRequest);
 
 
+        imgGallery = findViewById(R.id.imgGallery);
+        Button btnGallery = findViewById(R.id.btnCamera);
 
+        btnGallery.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent iGallery = new Intent(Intent.ACTION_PICK);
+                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(iGallery, GALLERY_REQ_CODE);
+            }
+        });
+
+        Button animalslist = findViewById(R.id.animalslist);
+        animalslist.setOnClickListener((View) -> {
+                Intent intent = new Intent(this, AnimalsList.class);
+                startActivity(intent);
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(requestCode==GALLERY_REQ_CODE){
+                imgGallery.setImageURI(data.getData());
+            }
+        }
     }
 }

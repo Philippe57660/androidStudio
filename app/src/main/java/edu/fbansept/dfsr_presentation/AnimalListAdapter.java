@@ -19,24 +19,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder> {
+public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder> {
 
     private ArrayList<Animal> animalList;
 
     public static class AnimalViewHolder extends RecyclerView.ViewHolder {
 
-        TextView itemProductTitle;
-        ImageView itemProductDescription;
+        TextView itemAnimalName;
+        ImageView itemAnimalImage;
 
         public AnimalViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemProductTitle = itemView.findViewById(R.id.itemProductTitle);
-            itemProductDescription = itemView.findViewById(R.id.itemProductDescription);
+            itemAnimalName = itemView.findViewById(R.id.itemAnimalName);
+            itemAnimalImage= itemView.findViewById(R.id.itemAnimalImage);
         }
     }
 
     public AnimalListAdapter(ArrayList<Animal> animalList) {
-        this.animalList = productList;
+        this.animalList = animalList;
     }
 
     @NonNull
@@ -44,7 +44,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public AnimalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_product,parent,false);
+                .inflate(R.layout.item_animal,parent,false);
 
         AnimalViewHolder viewHolder = new AnimalViewHolder(view);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy);
@@ -54,8 +54,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AnimalViewHolder holder, int position) {
-        holder.itemAnimalTitle.setText(animalList.get(position).getAnimal_name());
-        holder.itemAnimalDescription.setImageBitmap(this.getBitmapFromURL(animalList.get(position).getAnimal_image_link()));
+        holder.itemAnimalName.setText(animalList.get(position).getAnimal_name());
+        holder.itemAnimalImage.setImageBitmap(this.getBitmapFromURL(animalList.get(position).getAnimal_image_link()));
 
     }
 
@@ -66,7 +66,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public Bitmap getBitmapFromURL(String src) {
         try {
-            Log.e("src",src);
             URL url = new URL(src);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
